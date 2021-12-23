@@ -1,0 +1,13 @@
+<template>
+    <template if:true={isPicklist}>
+        <my-combobox onchange={handleComboboxChange} value={data} options={options}></my-combobox>
+    </template>
+    <template if:false={isPicklist}>
+        <template if:false={field.linkify}>
+            <div class="slds-truncate" title={data}>{data}</div>
+        </template>
+        <template if:true={field.linkify}>
+            <a href={href} tabindex="0">{data}</a>
+        </template>
+    </template>
+</template>

@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    grid-template-columns: auto 30px;
+    grid-column-gap: 12px;
+}
+
+my-lookup {
+    grid-column-start: 1;
+    grid-column-end: 1;
+}

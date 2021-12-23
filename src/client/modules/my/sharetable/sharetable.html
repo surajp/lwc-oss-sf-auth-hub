@@ -1,0 +1,126 @@
+<template>
+    <template if:true={errorMessage}>
+        <div class="error slds-align_absolute-center slds-m-top_large">{errorMessage}</div>
+    </template>
+    <table
+        aria-multiselectable="true"
+        class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols"
+        role="grid"
+        aria-label="Existing shares for the current organization"
+    >
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="slds-text-align_right" scope="col" style="width: 3.25rem">
+                    <span class="slds-assistive-text">Choose a row</span>
+                    <div class="slds-th__action slds-th__action_form">
+                        <div class="slds-checkbox">
+                            <input
+                                type="checkbox"
+                                name="options"
+                                value="checkbox-unique-id-297"
+                                tabindex="0"
+                                aria-labelledby="check-select-all-label column-group-header"
+                            />
+                            <label class="slds-checkbox__label" for="checkbox-unique-id-297">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label slds-assistive-text">Select All</span>
+                            </label>
+                        </div>
+                    </div>
+                </th>
+                <template for:each={fields} for:item="field">
+                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" key={field.name}>
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Name">{field.label}</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                        <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                                    </svg>
+                                </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input
+                                type="range"
+                                aria-label="Name column width"
+                                class="slds-resizable__input slds-assistive-text"
+                                max="1000"
+                                min="20"
+                                tabindex="0"
+                            />
+                            <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </th>
+                </template>
+                <th class="" scope="col" style="width: 3.25rem">
+                    <div class="slds-truncate slds-assistive-text" title="Actions">Actions</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={data} for:item="row" for:index="index">
+                <tr aria-selected="false" class="tablerow slds-hint-parent" key={row.id} data-id={row.id}>
+                    <td class="slds-text-align_right" role="gridcell">
+                        <div class="slds-checkbox">
+                            <input
+                                type="checkbox"
+                                name="options"
+                                value="checkbox-01"
+                                tabindex="0"
+                                aria-labelledby="check-button-label-01 column-group-header"
+                            />
+                            <label class="slds-checkbox__label" for="checkbox-01">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label slds-assistive-text">Select Item {index}</span>
+                            </label>
+                        </div>
+                    </td>
+                    <!--
+                    <th scope="row">
+                        <div class="slds-truncate" title={row.name}>
+                            <a href={row.url} tabindex="0">{row.name}</a>
+                        </div>
+                    </th>
+-->
+                    <template for:each={fields} for:item="field">
+                        <td role="gridcell" key={field.name}>
+                            <my-tablecell row={row} field={field} data-fieldname={field.name}></my-tablecell>
+                        </td>
+                    </template>
+                    <td role="gridcell">
+                        <button
+                            class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small"
+                            aria-haspopup="true"
+                            data-index={index}
+                            onclick={toggleMenu}
+                            tabindex="0"
+                        >
+                            <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_small" aria-hidden="true">
+                                <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#down"></use>
+                            </svg>
+                            <span class="slds-assistive-text">More actions for {row.Name}</span>
+                        </button>
+                        <template if:true={row.showActions}>
+                            <div class="slds-dropdown slds-dropdown_left">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                    <li data-index={index} class="slds-dropdown__item" role="presentation">
+                                        <a href="javascript:void(0)" role="menuitem" tabindex="-1" onclick={handleDelete}>
+                                            <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                                                <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#delete"></use>
+                                            </svg>
+                                            <span class="slds-truncate" title="Menu Item Two">Delete</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </template>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>

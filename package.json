@@ -1,0 +1,74 @@
+{
+  "name": "sfhub",
+  "version": "0.0.1",
+  "author": "Suraj Pillai",
+  "bugs": "https://github.com/surajp/sfhub/issues",
+  "dependencies": {
+    "@lwc/synthetic-shadow": "^2.3.4",
+    "@salesforce-ux/design-system": "^2.15.9",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "firebase": "^9.0.1",
+    "helmet": "^4.4.1",
+    "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
+    "node-fetch": "^2.6.1",
+    "pg": "^8.7.1",
+    "uuid": "^8.3.2"
+  },
+  "engines": {
+    "node": ">=10.13.0",
+    "npm": ">=6.4.1",
+    "yarn": ">=1.9.4"
+  },
+  "homepage": "https://github.com/surajp/sfhub",
+  "keywords": [
+    "lwc"
+  ],
+  "license": "MIT",
+  "nodemonConfig": {
+    "watch": [
+      "src/server/**/*.js"
+    ],
+    "ext": "js",
+    "ignore": [
+      "src/**/*.spec.js",
+      "src/**/*.test.js"
+    ],
+    "exec": "node ./src/server/api.js"
+  },
+  "repository": "surajp/sfhub",
+  "scripts": {
+    "build": "lwc-services build -m production -b webpack -w webpack.config.js",
+    "build:development": "lwc-services build -b webpack -w webpack.config.js",
+    "lint": "eslint ./src/**/*.js",
+    "postinstall": "husky install",
+    "precommit": "npm run prettier:verify && [ $? -eq 0 ] && npm run lint",
+    "prettier": "prettier --write \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
+    "prettier:verify": "prettier --list-different \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
+    "start": "concurrently --kill-others \"npm run start:client\"  \"PGUSER=${PGUSER:-postgres} PGHOST=${PGHOST:-localhost} PGPASSWORD=${PGPASSWD:-root} PGDATABASE=${PGDB:-sfhub} PGPORT=${PGPORT:-5433} npm run start:api\"",
+    "start:api": "node src/server/api.js",
+    "start:client": "node scripts/server.js",
+    "test:unit": "lwc-services test:unit",
+    "test:unit:coverage": "lwc-services test:unit --coverage",
+    "test:unit:debug": "lwc-services test:unit --debug",
+    "test:unit:watch": "lwc-services test:unit --watch",
+    "watch": "concurrently --kill-others \"npm run watch:client\" \"npm run watch:server\"",
+    "watch:client": "lwc-services watch -w webpack.config.js",
+    "watch:server": "PGUSER=${PGUSER:-postgres} PGHOST=${PGHOST:-localhost} PGPASSWORD=${PGPASSWD:-root} PGDATABASE=${PGDB:-sfhub} PGPORT=${PGPORT:-5433} nodemon"
+  },
+  "devDependencies": {
+    "@salesforce/eslint-config-lwc": "^2.2.0",
+    "concurrently": "^6.2.1",
+    "esbuild": "^0.12.25",
+    "eslint": "^7.32.0",
+    "eslint-plugin-inclusive-language": "^2.1.1",
+    "google-auth-library": "^7.11.0",
+    "husky": "^7.0.2",
+    "nodemon": "^2.0.12",
+    "webpack": "^5.65.0"
+  }
+}

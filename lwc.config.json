@@ -1,0 +1,13 @@
+{
+  "modules": [
+    {
+      "dir": "src/client/modules"
+    },
+    {
+      "npm": "jwt-decode"
+    },
+    {
+      "npm": "js-cookie"
+    }
+  ]
+}

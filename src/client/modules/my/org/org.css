@@ -1,0 +1,31 @@
+a:link {
+    color: rgb(8, 73, 104);
+}
+a:visited {
+    color: blue;
+}
+a:hover {
+    color: rgb(25, 78, 49);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container {
+    position: relative;
+    margin: 10px;
+    padding: 20px;
+    border-width: 3px;
+    border-style: dashed solid;
+    border-color: red;
+    background: rgb(255, 144, 110);
+    border-radius: 4px;
+    height: 100px;
+}
+
+.modalcontent {
+    height: 400px;
+}
+
+.sbx {
+    border-color: green !important;
+}

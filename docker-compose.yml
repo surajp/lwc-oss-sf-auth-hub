@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: sfhub
+    networks:
+      - sfhub
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      - "./scripts/dbscript.sql:/docker-entrypoint-initdb.d/create_tables.sql"
+
+volumes:
+  db-data:
+
+networks:
+  sfhub:

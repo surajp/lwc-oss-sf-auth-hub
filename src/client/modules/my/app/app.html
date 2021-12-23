@@ -1,0 +1,24 @@
+<template>
+    <!-- LWC sample component <my-greeting> -->
+    <div class="center">
+        <template if:true={user}>
+            <button class="slds-button slds-button_outline-brand slds-m-top_small" onclick={addNewProd}>Add New Production</button>
+            <button class="slds-button slds-button_outline-brand slds-m-top_small" onclick={addNewSbx}>Add New Sandbox</button>
+            <div class="slds-grid slds-wrap">
+                <template if:true={hasRows} for:each={rows} for:item="row" for:index="index">
+                    <div class="slds-col slds-size_1-of-3" key={row.id}>
+                        <my-org onmenutoggle={handleOrgMenuToggle} org-detail={row} onorgopen={openOrg} onorgdelete={handleDeleteOrg}></my-org>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:true={errorMessage}>
+            <h2 class="error">{errorMessage}</h2>
+        </template>
+    </div>
+    <template if:true={showShare}>
+        <div class="slds-modal">
+            <my-share></my-share>
+        </div>
+    </template>
+</template>

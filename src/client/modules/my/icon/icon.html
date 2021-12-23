@@ -1,0 +1,8 @@
+<template>
+    <span onclick={handleClick} class="slds-icon_container slds-icon-utility-announcement" title={iconName}>
+        <svg class={iconClass} aria-hidden="true">
+            <use xlink:href={iconUrl}></use>
+        </svg>
+        <span class="slds-assistive-text">{alternativeText}</span>
+    </span>
+</template>

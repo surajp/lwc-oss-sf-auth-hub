@@ -1,0 +1,47 @@
+<template>
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class={comboboxclass}>
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <button
+                            type="button"
+                            class={buttonclass}
+                            aria-labelledby="combobox-label-id-132 combobox-id-3-selected-value"
+                            aria-controls="listbox-id-4"
+                            aria-expanded={isExpanded}
+                            aria-haspopup="listbox"
+                            onclick={toggleOptions}
+                        >
+                            <span class="slds-truncate slds-text-body_small slds-p-left_small slds-p-right_small">{displayValue}</span>
+                        </button>
+                        <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#down"></use>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class={listboxclass} role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={options} for:item="option">
+                                <li role="presentation" class="slds-listbox__item" key={option.value}>
+                                    <div
+                                        onclick={handleSelect}
+                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option"
+                                        data-value={option.value}
+                                    >
+                                        <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" title={option.label}>{option.label}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

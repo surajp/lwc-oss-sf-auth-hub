@@ -1,0 +1,9 @@
+<template>
+    <div class="container">
+        <my-lookup class="inline" onsearch={handleUserSearch} onselectionchange={handleSelectionChange}></my-lookup>
+        <my-icon class="inline" icon-name="add" clickable onclick={handleAddClick}></my-icon>
+    </div>
+    <div class="slds-m-top_medium">
+        <my-sharetable org-id={orgId}></my-sharetable>
+    </div>
+</template>

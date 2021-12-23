@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>My LWC App</title>
+        <link rel="stylesheet" href="/SLDS/styles/salesforce-lightning-design-system.css" type="text/css" charset="utf-8" />
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background: black;
+                height: 100vh;
+            }
+            .btn {
+                display: inline-block;
+            }
+            a.signout {
+                display: inline-block;
+                border: 1px solid black;
+                border-radius: 2px;
+                padding: 6px;
+                box-shadow: 2px 2px grey;
+                width: 10em;
+                font-size: 12px;
+            }
+            .hide {
+                display: none !important;
+            }
+        </style>
+        <!-- Block zoom -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="shortcut icon" href="./resources/favicon.ico" />
+    </head>
+    <body>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <div id="g_id_onload" data-context="signin" data-auto_select="true" data-callback="onSignIn"></div>
+        <div
+            class="g_id_signin slds-float_right"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="right"
+        ></div>
+        <button class="slds-m-around_small g_id_signout slds-float_right slds-button_brand slds-button slds-hide" onclick="onSignout()">Sign Out</button>
+        <div id="main"></div>
+        <script>
+            function onSignout() {
+                document.querySelector('my-app').handleSignout();
+                document.querySelector('.g_id_signin').classList.remove('slds-hide');
+                document.querySelector('.g_id_signout').classList.add('slds-hide');
+            }
+            function onSignIn(googleUser) {
+                document.querySelector('my-app').userDetails(googleUser);
+                document.querySelector('.g_id_signin').classList.add('slds-hide');
+                document.querySelector('.g_id_signout').classList.remove('slds-hide');
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<template>
+    <div class={containerclass}>
+        <article class="slds-tile slds-hint-parent">
+            <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                <h3 class="slds-tile__title slds-truncate" title="Org Url">
+                    <a href="javascript:void(0)" onclick={handleClick}>{orgDetail.url}</a>
+                </h3>
+                <template if:true={isShowMenu}>
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                        <button
+                            class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small"
+                            aria-haspopup="true"
+                            title="More options"
+                            onclick={toggleMenu}
+                        >
+                            <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                                <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#down"></use>
+                            </svg>
+                            <span class="slds-assistive-text">More options</span>
+                        </button>
+                        <div class={menuClass}>
+                            <div class="slds-dropdown slds-dropdown_left">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                    <template if:true={isShareVisible}>
+                                        <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0)" role="menuitem" tabindex="0" onclick={handleShareSelect}>
+                                                <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                                                    <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#share"></use>
+                                                </svg>
+                                                <span class="slds-truncate" title="Share">Share</span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                    <template if:true={isDeleteVisible}>
+                                        <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0)" role="menuitem" tabindex="-1" onclick={handleDelete}>
+                                                <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                                                    <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#delete"></use>
+                                                </svg>
+                                                <span class="slds-truncate" title="Delete">Delete</span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                    <!--
+                                    <template if:true={isHistoryVisible}>
+                                        <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0)" role="menuitem" tabindex="-1">
+                                                <svg class="slds-button__icon slds-button__icon_hint"  aria-hidden="true">
+                                                    <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#clock"></use>
+                                                </svg>
+                                                <span class="slds-truncate" title="Menu Item Three">History</span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                    -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-tile__detail">
+                <dl class="slds-list_horizontal slds-wrap">
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="First Label">Username:</dt>
+                    <dd class="slds-item_detail slds-truncate" title="Description for first label">{orgDetail.username}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Second Label">Description:</dt>
+                    <dd class="slds-item_detail slds-truncate" title="Description for second label">{orgDetail.notes}</dd>
+                </dl>
+            </div>
+        </article>
+        <template if:true={isLoading}>
+            <my-loader></my-loader>
+        </template>
+    </div>
+    <my-modal modal-header="Share Org" modal-save-handler={saveShareChanges}>
+        <div slot="modalContent" class="modalcontent slds-p-around_small">
+            <my-share org-id={orgDetail.id}></my-share>
+        </div>
+    </my-modal>
+</template>
