@@ -8,7 +8,7 @@ Salesforce consulting partners often find themselves having to share credentials
 
 ## Mechanism
 
-The app uses Web Server OAuth flow to get an access token and refresh token for an org. The refresh token is encrypted and stored in the database and is used for all subsequent authentication requests.
+The app uses [Web Server OAuth flow](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/intro_oauth_web_server_flow.htm) to get an access token and refresh token for an org. The refresh token is encrypted and stored in the database and is used for all subsequent authentication requests. Users authenticate into the app using their Google credentials. Authorized users' Google usernames should be added to the `authorized_users` table.
 
 ## Steps to run locally
 
