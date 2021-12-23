@@ -1,4 +1,4 @@
-# Salesforce Org Hub
+# Salesforce Authentication Hub
 
 Authenticate into multiple Salesforce orgs. Share orgs with other users on your team without sharing passwords. The app maintains an audit log of all requests so you can report on who accessed orgs and when.
 
@@ -12,8 +12,8 @@ The app uses [Web Server OAuth flow](https://developer.salesforce.com/docs/atlas
 
 ## Steps to run locally
 
--   Use `. local/setenv.sh` to set environment variables in calling shell. More on it [here](https://stackoverflow.com/questions/496702/can-a-shell-script-set-environment-variables-of-the-calling-shell)
--   Run scripts/dbscript.sql to set up database tables. Alternatively, you can run `docker-compose up -d` to start a postgresql server locally that will work the environment variables included in `. local/setenv.sh`. (Requires `docker` service to be installed and running and `docker-compose` to be installed.)
+-   Use `. scripts/setenv.sh` to set environment variables in calling shell. More on it [here](https://stackoverflow.com/questions/496702/can-a-shell-script-set-environment-variables-of-the-calling-shell)
+-   Run scripts/dbscript.sql to set up database tables. Alternatively, you can run `docker-compose up -d` to start a postgresql server locally that will work the environment variables included in `. scripts/setenv.sh`. (Requires `docker` service to be installed and running and `docker-compose` to be installed.)
 -   Run `npm install` to install dependencies.
 -   Run `npm run watch` to start the server in development mode.
 -   Add authorized email addresses ( google usernames ) to the `authorized_users` table. Once the database is set up, you can use any Postgresql client to connect to the database and run these commands.
@@ -27,5 +27,6 @@ The app uses [Web Server OAuth flow](https://developer.salesforce.com/docs/atlas
 -   If you plan on running the client server or api server on a different domain, you will need to set up a Salesforce connected app and Google OAuth credential yourself with these domains allowed. The steps for setting up your own Google app and credentials may be found [here](https://developers.google.com/identity/sign-in/web/sign-in)
 -   It is **strongly** recommended that you change the encryption key and salt before deploying to production
 
-##Disclaimer
+## Disclaimer
+
 While I have tried to secure the app to the extent of my abilities, I am not an nodejs/express developer and do not claim that the app is a 100% secure. Use it at your own discretion. Feel free to report bugs or security issues and I will do my best to address them.
