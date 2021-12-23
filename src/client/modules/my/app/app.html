@@ -2,8 +2,16 @@
     <!-- LWC sample component <my-greeting> -->
     <div class="center">
         <template if:true={user}>
-            <button class="slds-button slds-button_outline-brand slds-m-top_small" onclick={addNewProd}>Add New Production</button>
-            <button class="slds-button slds-button_outline-brand slds-m-top_small" onclick={addNewSbx}>Add New Sandbox</button>
+            <div class="slds-p-top_small slds-p-bottom_small">
+                <button class="slds-button slds-button_outline-brand" onclick={addNewProd}>Add New Production</button>
+                <button class="slds-button slds-button_outline-brand" onclick={addNewSbx}>Add New Sandbox</button>
+                <button class="slds-button slds-button_icon slds-button_icon-border-filled" title="Refresh orgs list" onclick={refreshOrgsList}>
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Refresh orgs list</span>
+                </button>
+            </div>
             <div class="slds-grid slds-wrap">
                 <template if:true={hasRows} for:each={rows} for:item="row" for:index="index">
                     <div class="slds-col slds-size_1-of-3" key={row.id}>

@@ -9,7 +9,7 @@ module.exports = {
     sourceDir: './src/client/',
     devServer: {
         port: 3001,
-        host: 'localhost',
+        host: '0.0.0.0',
         contentBase: './src/client'
     }
 };

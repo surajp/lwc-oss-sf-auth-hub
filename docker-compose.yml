@@ -14,6 +14,18 @@ services:
     volumes:
       - "db-data:/var/lib/postgresql/data"
       - "./scripts/dbscript.sql:/docker-entrypoint-initdb.d/create_tables.sql"
+  web:
+    image: node:16
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+      - "8080:8080"
+    command: bash -c "chmod 777 -R /root/ && cd /app && npm install -g lwc-services && npm install && . ./scripts/setenv.sh && npm run watch"
+    volumes:
+      - "./:/app"
+    networks:
+      - sfhub
 
 volumes:
   db-data:

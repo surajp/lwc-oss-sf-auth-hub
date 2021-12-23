@@ -21,9 +21,15 @@ export default class App extends LightningElement {
     @api
     async handleSignout() {
         Cookies.remove('sfhub_idtoken');
+        this.errorMessage = '';
         this.user = null;
         this.rows = [];
         this._logoutFromServer();
+    }
+
+    refreshOrgsList() {
+        this.errorMessage = '';
+        this._fetchConnections();
     }
 
     _logoutFromServer() {

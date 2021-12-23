@@ -50,22 +50,28 @@ const verifyIdToken = async (req, res, next) => {
     }
 };
 
+const _skipAuthorizationCheck = () => {
+    //eslint-disable-next-line eqeqeq
+    return process.env.ALLOW_UNAUTHORIZED_USERS == 'true';
+};
+
+const _isAuthorizedUser = async (email) => {
+    if (_skipAuthorizationCheck()) return true;
+    const getUserByEmailQuery = 'Select id from authorized_users where email=$1';
+    const data = await query(getUserByEmailQuery, [email]);
+    return (data?.rows?.length || 0) === 1;
+};
+
 const authorizeUser = async (req, resp, next) => {
     try {
+        if (!(await _isAuthorizedUser(req.user.email))) throw new Error('Unauthorized');
         const uid = req.uid;
         const getUserQuery = 'Select id from users where id=$1';
         let data = await query(getUserQuery, [uid]);
         //console.log('rows ', data.rows);
         if (!data?.rows?.length) {
             if (!req.isLogin) throw new Error('Unauthorized');
-            //console.log('email ', req.user.email);
-            const getUserByEmailQuery = 'Select id from authorized_users where email=$1';
-            data = await query(getUserByEmailQuery, [req.user.email]);
-            if (data?.rows?.length === 1) {
-                await createNewUser(req.user);
-            } else {
-                throw new Error('Unauthorized');
-            }
+            await createNewUser(req.user);
         }
         next();
     } catch (err) {
@@ -95,6 +101,12 @@ const verifyStateHash = async (req, res, next) => {
     }
 };
 
+const isClaimChangeAllowed = (currentUserAccessLevel, currentShareAccessLevel, newShareAccessLevel) => {
+    const currentShareClaimAccessLevels = claims.orgClaims[currentShareAccessLevel.toLowerCase()];
+    const newShareClaimAccessLevels = claims.orgClaims[newShareAccessLevel.toLowerCase()];
+    return currentShareClaimAccessLevels.indexOf(currentUserAccessLevel) > -1 && newShareClaimAccessLevels.indexOf(currentUserAccessLevel) > -1;
+};
+
 const verifyClaim = (claim) => async (req, res, next) => {
     try {
         const userId = req.uid;
@@ -105,10 +117,12 @@ const verifyClaim = (claim) => async (req, res, next) => {
         }
         const claimsList = claims.orgClaims[claim];
         const claimParams = claimsList.map((c, i) => '$' + (i + 3)).join(',');
-        const claimQuery = 'Select count(1) count from orgshares where user_id=$1 and org_id=$2 and accesslevel in (' + claimParams + ')';
+        const claimQuery = 'Select accesslevel from orgshares where user_id=$1 and org_id=$2 and accesslevel in (' + claimParams + ')';
         const data = await query(claimQuery, [userId, orgId, ...claimsList]);
-        if (data.rows[0].count > 0) next();
-        else next({ status: 401 });
+        if (data.rows.length > 0) {
+            req.user.accesslevel = data.rows[0].accesslevel;
+            next();
+        } else next({ status: 401 });
     } catch (err) {
         console.error('verifyClaim', err);
         next({ message: 'Unauthorized', status: 401 });
@@ -130,4 +144,4 @@ const auditLog = async (req, res, next) => {
     }
 };
 
-module.exports = { verifyIdToken, resolveUid, authorizeUser, verifyStateHash, verifyClaim, auditLog };
+module.exports = { verifyIdToken, resolveUid, authorizeUser, verifyStateHash, isClaimChangeAllowed, verifyClaim, auditLog };

@@ -248,11 +248,19 @@ app.post('/api/v1/shares/:orgId', authFunctions.authorizeUser, authFunctions.ver
     try {
         const data = req.body.shares;
         const orgId = req.params.orgId;
+        const currentUserAccessLevel = req.user.accesslevel; //added by 'verifyClaim' method
         const sharesToSave = data.filter((share) => (share.id + '').startsWith('new') || share.isDirty);
         const mergeQuery =
-            'iNSERT into orgshares(org_id,user_id,accesslevel) values($1,$2,$3) ON CONFLICT on constraint orgshare_uniq DO UPDATE SET accesslevel=$3';
+            'INSERT into orgshares(org_id,user_id,accesslevel) values($1,$2,$3) ON CONFLICT on constraint orgshare_uniq DO UPDATE SET accesslevel=$3';
         const results = [];
         for (const share of sharesToSave) {
+            const fetchCurrentSharesQuery = 'SELECT accesslevel from orgshares where org_id=$1 and user_id=$2';
+            //eslint-disable-next-line no-await-in-loop
+            const currentShares = await query(fetchCurrentSharesQuery, [orgId, share.user_id]);
+            if (currentShares.rows.length > 0) {
+                const currentShareAccessLevel = currentShares.rows[0].accesslevel;
+                if (!authFunctions.isClaimChangeAllowed(currentUserAccessLevel, currentShareAccessLevel, share.accesslevel)) continue;
+            }
             //eslint-disable-next-line no-await-in-loop
             results.push(await query(mergeQuery, [orgId, share.user_id, share.accesslevel]));
         }
