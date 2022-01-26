@@ -42,13 +42,11 @@ export default class Sharetable extends LightningElement {
         return [...this.template.querySelectorAll('tr.tablerow')].map((row) => {
             const id = row.dataset.id;
             const currData = this.data.filter((r) => r.id == id)[0];
-            console.log('currData ', currData);
             const toReturn = [...row.querySelectorAll('my-tablecell')].reduce((obj, cell) => {
                 obj[cell.dataset.fieldname] = cell.data;
                 if (cell.isDirty()) obj.isDirty = true;
                 return obj;
             }, currData);
-            console.log('after reduce', toReturn);
             return toReturn;
         });
     }
