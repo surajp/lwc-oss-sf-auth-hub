@@ -41,18 +41,16 @@
                                             </a>
                                         </li>
                                     </template>
-                                    <!--
                                     <template if:true={isHistoryVisible}>
                                         <li class="slds-dropdown__item" role="presentation">
-                                            <a href="javascript:void(0)" role="menuitem" tabindex="-1">
-                                                <svg class="slds-button__icon slds-button__icon_hint"  aria-hidden="true">
+                                            <a href="javascript:void(0)" role="menuitem" tabindex="-1" onclick={handleHistory}>
+                                                <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
                                                     <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#clock"></use>
                                                 </svg>
                                                 <span class="slds-truncate" title="Menu Item Three">History</span>
                                             </a>
                                         </li>
                                     </template>
-                                    -->
                                 </ul>
                             </div>
                         </div>
@@ -72,9 +70,18 @@
             <my-loader></my-loader>
         </template>
     </div>
-    <my-modal modal-header="Share Org" modal-save-handler={saveShareChanges}>
-        <div slot="modalContent" class="modalcontent slds-p-around_small">
-            <my-share org-id={orgDetail.id}></my-share>
-        </div>
-    </my-modal>
+    <template if:true={isShareVisible}>
+        <my-modal class="shares" modal-header={shareModalTitle} modal-save-handler={saveShareChanges}>
+            <div slot="modalContent" class="modalcontent slds-p-around_small">
+                <my-share org-id={orgDetail.id}></my-share>
+            </div>
+        </my-modal>
+    </template>
+    <template if:true={isHistoryVisible}>
+        <my-modal class="history" modal-header={historyModalTitle}>
+            <div slot="modalContent" class="modalcontent slds-p-around_small">
+                <my-history org-id={orgDetail.id}></my-history>
+            </div>
+        </my-modal>
+    </template>
 </template>

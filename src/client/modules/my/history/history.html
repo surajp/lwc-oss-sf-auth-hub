@@ -1,0 +1,55 @@
+<template>
+    <template if:true={errorMessage}>
+        <div class="error slds-align_absolute-center slds-m-top_large">{errorMessage}</div>
+    </template>
+    <table
+        aria-multiselectable="true"
+        class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols"
+        role="grid"
+        aria-label="Existing shares for the current organization"
+    >
+        <thead>
+            <tr class="slds-line-height_reset">
+                <template for:each={fields} for:item="field">
+                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" key={field.name}>
+                        <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                            <span class="slds-assistive-text">Sort by: </span>
+                            <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Name">{field.label}</span>
+                                <span class="slds-icon_container slds-icon-utility-arrowdown">
+                                    <svg class="slds-icon slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+                                        <use xlink:href="/SLDS/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                                    </svg>
+                                </span>
+                            </div>
+                        </a>
+                        <div class="slds-resizable">
+                            <input
+                                type="range"
+                                aria-label="Name column width"
+                                class="slds-resizable__input slds-assistive-text"
+                                max="1000"
+                                min="20"
+                                tabindex="0"
+                            />
+                            <span class="slds-resizable__handle">
+                                <span class="slds-resizable__divider"></span>
+                            </span>
+                        </div>
+                    </th>
+                </template>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={data} for:item="row" for:index="index">
+                <tr aria-selected="false" class="tablerow slds-hint-parent" key={row.created}>
+                    <template for:each={fields} for:item="field">
+                        <td role="gridcell" key={field.name}>
+                            <my-tablecell row={row} field={field} data-fieldname={field.name}></my-tablecell>
+                        </td>
+                    </template>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>

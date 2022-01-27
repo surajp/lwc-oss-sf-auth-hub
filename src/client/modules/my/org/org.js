@@ -12,8 +12,6 @@ export default class Org extends LightningElement {
     @api
     isLoading = false;
 
-    showShare = false;
-
     @api
     hideMenu() {
         this.isMenuVisible = false;
@@ -30,11 +28,17 @@ export default class Org extends LightningElement {
     get isShareVisible() {
         return this.orgDetail.accesslevel && ['Manage', 'Owner'].indexOf(this.orgDetail.accesslevel) > -1;
     }
+
+    get shareModalTitle() {
+        return `Shares for ${this.orgDetail?.username}`;
+    }
+
+    get historyModalTitle() {
+        return `Login history for ${this.orgDetail?.username}`;
+    }
+
     get isDeleteVisible() {
         return this.orgDetail.accesslevel && ['Owner'].indexOf(this.orgDetail.accesslevel) > -1;
-    }
-    get isHistoryVisible() {
-        return this.orgDetail.accesslevel && ['Manage', 'Owner'].indexOf(this.orgDetail.accesslevel) > -1;
     }
 
     toggleMenu(event) {
@@ -59,6 +63,10 @@ export default class Org extends LightningElement {
         );
     }
 
+    get isHistoryVisible() {
+        return this.orgDetail.accesslevel && ['Manage', 'Owner'].indexOf(this.orgDetail.accesslevel) > -1;
+    }
+
     handleDelete(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -72,8 +80,14 @@ export default class Org extends LightningElement {
     handleShareSelect(event) {
         event.preventDefault();
         event.stopPropagation();
-        this.showShare = true;
-        this.template.querySelector('my-modal').toggleModal();
+        this.template.querySelector('my-modal.shares').toggleModal();
+        this.toggleMenu();
+    }
+
+    handleHistory(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.template.querySelector('my-modal.history').toggleModal();
         this.toggleMenu();
     }
 
