@@ -21,7 +21,8 @@ export default class History extends LightningElement {
     fields = [
         { label: 'Name', name: 'name' },
         { label: 'Email', name: 'email' },
-        { label: 'Time Of Login', name: 'created' }
+        { label: 'Time Of Login', name: 'created' },
+        { label: 'IP Address', name: 'ip_address' }
     ];
 
     async _getOrgHistory() {
@@ -38,6 +39,7 @@ export default class History extends LightningElement {
                 return;
             }
             resp = await resp.json();
+            console.log('>>>resp', resp);
             this.data = resp;
         } catch (err) {
             console.error('error in fetch history', err);

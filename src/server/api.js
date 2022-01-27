@@ -284,7 +284,8 @@ app.delete('/api/v1/shares/:shareId', authFunctions.authorizeUser, resolveOrgIdF
 app.post('/api/v1/history/:orgId', authFunctions.authorizeUser, authFunctions.verifyClaim('manage'), async (req, res, next) => {
     try {
         const loginUrlForOrg = `/api/v1/connections/${req.params.orgId}/open`;
-        let loginHistoryQuery = 'Select u.name,u.email,l.created from auditlog l,users u where l.url=$1 and u.id=l.user_id order by l.created desc limit 10';
+        let loginHistoryQuery =
+            'Select u.name,u.email,l.ip_address,l.created from auditlog l,users u where l.url=$1 and u.id=l.user_id order by l.created desc limit 10';
         const data = await query(loginHistoryQuery, [loginUrlForOrg]);
         res.json(data.rows);
     } catch (err) {
